@@ -1,9 +1,12 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import Todos from './Todos';
+import { useAuthStore } from '@/stores/authStore';
 
-const Index = () => {
-  const { user, isLoading } = useAuth();
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+}
+
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const { user, isLoading } = useAuthStore();
 
   if (isLoading) {
     return (
@@ -20,7 +23,5 @@ const Index = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  return <Todos />;
+  return <>{children}</>;
 };
-
-export default Index;
